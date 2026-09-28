@@ -42,3 +42,8 @@ Desktop.ini
 
 # Log files
 *.log
+
+# Archive packages
+*.zip
+*.tar.gz
+*.rar
