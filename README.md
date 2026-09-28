@@ -34,15 +34,20 @@ This project is open-source under the **MIT License**. You are completely free t
 
 <div align="center">
 
-### 📱 Customer-Facing Digital Menu & Ordering
+### 📱 1. Customer-Facing Digital Menu & Ordering Flow
 | 🍽️ Interactive Category Menu | 🥩 Dish Selection & Quantity Control |
 |:---:|:---:|
 | <img src="core/static/images/screenshots/menu_home.png" alt="Customer Menu Home" width="560"/> | <img src="core/static/images/screenshots/menu_dishes.png" alt="Dishes & Order Flow" width="560"/> |
 
-### ⚡ Live Kitchen Dashboard & Operations
-| 📋 Compact Dual-Column Menu | 📊 Real-Time Kitchen Dashboard (WebSockets) |
+### 📋 2. Fast-Scan Menu & Real-Time Customer Order Tracking
+| ⚡ Compact Dual-Column Menu Board | 🔍 Live Table Order Lookup Screen |
 |:---:|:---:|
-| <img src="core/static/images/screenshots/compact_menu.png" alt="Compact Menu View" width="560"/> | <img src="core/static/images/screenshots/admin_dashboard.png" alt="Live Kitchen Dashboard" width="560"/> |
+| <img src="core/static/images/screenshots/compact_menu.png" alt="Compact Menu View" width="560"/> | <img src="core/static/images/screenshots/check_order.png" alt="Live Table Order Lookup" width="560"/> |
+
+### 👨‍🍳 3. Kitchen & Back-Office Operations
+| 📊 Real-Time WebSocket Kitchen Dashboard & Low-Stock Alerts |
+|:---:|
+| <img src="core/static/images/screenshots/admin_dashboard.png" alt="Live Kitchen Dashboard" width="880"/> |
 
 </div>
 
