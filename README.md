@@ -11,7 +11,7 @@
 [![WebSockets](https://img.shields.io/badge/WebSockets-Django%20Channels-orange.svg)](https://channels.readthedocs.io/)
 [![Donate](https://img.shields.io/badge/Support%20%26%20Donate-7AZZANI.COM-ff69b4.svg)](https://7azzani.com/donation/)
 
-[Features](#-key-features) • [Quick Start](#-quick-start--installation) • [Sample Data](#-sample-data-seeding) • [Project Structure](#-project-structure) • [License](#-license--usage-rights) • [Support & Donations](#-support--donations)
+[Screenshots](#-visual-showcase--screenshots) • [Features](#-key-features) • [Quick Start](#-quick-start--installation) • [Sample Data](#-sample-data-seeding) • [Project Structure](#-project-structure) • [License](#-license--usage-rights) • [Support & Donations](#-support--donations)
 
 </div>
 
@@ -27,6 +27,24 @@ This project is open-source under the **MIT License**. You are completely free t
 * Use it as a client template or foundation for your commercial projects.
 * Customize, extend, and rebrand it to fit your unique design.
 * Retain the "Built with ❤️ by [7AZZANI.COM](https://7azzani.com)" attribution to support the creator!
+
+---
+
+## 📸 Visual Showcase & Screenshots
+
+<div align="center">
+
+### 📱 Customer-Facing Digital Menu & Ordering
+| 🍽️ Interactive Category Menu | 🥩 Dish Selection & Quantity Control |
+|:---:|:---:|
+| <img src="core/static/images/screenshots/menu_home.png" alt="Customer Menu Home" width="560"/> | <img src="core/static/images/screenshots/menu_dishes.png" alt="Dishes & Order Flow" width="560"/> |
+
+### ⚡ Live Kitchen Dashboard & Operations
+| 📋 Compact Dual-Column Menu | 📊 Real-Time Kitchen Dashboard (WebSockets) |
+|:---:|:---:|
+| <img src="core/static/images/screenshots/compact_menu.png" alt="Compact Menu View" width="560"/> | <img src="core/static/images/screenshots/admin_dashboard.png" alt="Live Kitchen Dashboard" width="560"/> |
+
+</div>
 
 ---
 
