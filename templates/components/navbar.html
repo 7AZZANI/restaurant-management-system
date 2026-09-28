@@ -1,0 +1,44 @@
+{% load static %}
+<div class="p-2">
+  <div class="navbar bg-accent rounded-xl text-primary-focus">
+    <div class="navbar-start">
+      <div class="dropdown">
+        <label tabindex="0" class="btn btn-ghost btn-circle">
+          <i class="bi bi-text-left text-2xl"></i>
+        </label>
+        <ul
+          tabindex="0"
+          class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+        >
+          <li><a href="{% url 'home' %}">See enlarge menu</a></li>
+          <li><a href="{% url 'compact-menu' %}">See compact menu</a></li>
+          <li><a href="{% url 'check-order' %}">Check orders</a></li>
+          {% comment %} <li><a>About</a></li> {% endcomment %}
+        </ul>
+      </div>
+    </div>
+    <div class="navbar-center">
+      <a href="{% url 'home' %}" class="flex items-center gap-3 py-1 hover:opacity-95 transition-opacity">
+        <img src="{% static 'images/logo.png' %}" alt="Restaurant Menu Logo" class="h-10 sm:h-12 w-auto object-contain hidden sm:block" />
+        <div class="flex flex-col items-center sm:items-start">
+          <div class="flex items-center gap-2">
+            <span class="uppercase text-2xl sm:text-3xl font-display font-bold leading-none tracking-wide">Restaurant Menu</span>
+            <span class="badge badge-sm badge-outline text-[10px] uppercase font-bold tracking-wider opacity-80">Demo</span>
+          </div>
+          <span class="text-xs sm:text-sm text-primary-focus/80 font-medium">Digital Table Ordering System</span>
+        </div>
+      </a>
+    </div>
+    <div class="navbar-end">
+      <div class="form-control hidden md:block">
+        <input type="text" placeholder="Search" class="input input-bordered" onkeypress="search(event)"/>
+      </div>
+      <label for="order-modal" class="btn btn-ghost btn-circle modal-button" onclick="displayOrders()">
+        <div class="indicator">
+          <i class="bi bi-bag text-xl"></i>
+          <span class="badge badge-xs badge-primary indicator-item py-2 hidden"></span>
+        </div>
+      </label>
+    </div>
+  </div>
+</div>

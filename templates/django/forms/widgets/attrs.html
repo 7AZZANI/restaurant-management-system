@@ -1,0 +1,19 @@
+{% for name, value in widget.attrs.items %}
+    {% if value is not False %}
+        {{ name }}
+        {% if name == "class" %}
+            {% if widget.type == "checkbox" %}
+                {% if value is not True %}="checkbox checkbox-xs {{ value|stringformat:'s' }}"{% endif %}
+            {% elif widget.type == "text" or widget.type == "number" or widget.type == "password"  %}
+                {% if value is not True %}="input input-bordered w-full max-w-xs {{ value|stringformat:'s' }}"{% endif %}
+            {% endif %}
+        {% else %}
+            {% if "date__range" not in widget.name %}
+                {% if widget.type == "text" or widget.type == "number" or widget.type == "password" %}
+                    class="input input-bordered w-full max-w-xs"
+                {% endif %}
+            {% endif %}
+            {% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}
+        {% endif %}
+    {% endif %}
+{% endfor %}

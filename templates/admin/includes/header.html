@@ -1,0 +1,46 @@
+{% load i18n static %}
+{% load webpush_notifications %}
+
+{% block usertools %}
+<div class="navbar bg-base-100 shadow-md px-5" style="z-index: 1">
+    <div class="flex-none">
+      <label for="drawer" class="drawer-button lg:hidden">
+        <i class="bi bi-list text-2xl cursor-pointer mb-0.5 mr-2"></i>
+      </label>
+    </div>
+    <div class="flex-1">
+        <a class="normal-case font-display text-2xl cursor-pointer font-bold {% if user.is_authenticated %}lg:hidden{% endif %}">Restaurant Menu</a>
+    </div>
+    <div class="flex-none">
+        <div class="mr-2">
+            {% webpush_button with_class="btn btn-ghost" %}
+        </div>
+        <div class="dropdown dropdown-end">
+            <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+                <div class="w-10 rounded-full">
+                    <img src="{% static 'images/avatar.png' %}" />
+                </div>
+            </label>
+            {% if has_permission %}
+                {% block userlinks %}
+                <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+                    <li>
+                        {% if site_url %}
+                            <a href="{{ site_url }}">{% translate 'View site' %}</a>
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if user.has_usable_password %}
+                            <a href="{% url 'admin:password_change' %}">{% translate 'Change password' %}</a>
+                        {% endif %}
+                    </li>
+                    <li>
+                        <a href="{% url 'admin:logout' %}">{% translate 'Log out' %}</a>
+                    </li>
+                </ul>
+                {% endblock %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

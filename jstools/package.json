@@ -1,0 +1,18 @@
+{
+  "name": "jstools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tailwindcss -i tailwind.css -o ../core/static/css/style.css && cleancss -o ../core/static/css/style.min.css ../core/static/css/style.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "autoprefixer": "^10.4.7",
+    "clean-css-cli": "^5.6.0",
+    "daisyui": "^2.17.0",
+    "tailwindcss": "^3.1.4"
+  }
+}

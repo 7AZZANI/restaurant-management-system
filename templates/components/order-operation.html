@@ -1,0 +1,44 @@
+<div
+  id="{{ item.slug }}-add-btn-grp"
+  class="flex flex-wrap items-center gap-2 justify-between mt-4"
+>
+  <div class="flex items-center gap-2 shrink-0">
+    <button
+      class="btn btn-circle"
+      onclick="updatePrice(undefined, '{{ item.slug }}', '{{ item.price }}', '{{ item.quantity_available }}', -1)"
+    >
+      <i class="bi bi-dash"></i>
+    </button>
+    <input
+      id="{{ item.slug }}-quantity"
+      type="number"
+      min="1"
+      max="{{ item.quantity_available }}"
+      class="input input-bordered w-16"
+      value="1"
+      onchange="updatePrice(event, '{{ item.slug }}', '{{ item.price }}', '{{ item.quantity_available }}')"
+    />
+    <button
+      class="btn btn-circle"
+      onclick="updatePrice(undefined, '{{ item.slug }}', '{{ item.price }}','{{ item.quantity_available }}', 1)"
+    >
+      <i class="bi bi-plus"></i>
+    </button>
+  </div>
+  <button
+    class="btn btn-primary max-w-[11rem] w-full"
+    onclick="addItem('{{ item.slug }}', '{{ item.name }}')"
+    {% if item.quantity_available == 0 %}
+    disabled
+    {% endif %}
+  >
+    Add to order
+  </button>
+</div>
+<button
+  id="{{ item.slug }}-remove-btn"
+  class="hidden btn mt-4"
+  onclick="removeItem('{{ item.slug }}')"
+>
+  Remove from order
+</button>

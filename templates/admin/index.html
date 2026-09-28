@@ -1,0 +1,192 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block content_title %}
+    <h1 class="text-xl sm:text-2xl font-bold ml-2">Dashboard</h1>
+{% endblock %}    
+
+{% block content %}
+<main>
+    <div class="mt-5 ml-1 grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-10">
+        <div class="stats shadow">
+            <div class="stat">
+                <div class="stat-figure rounded-full p-2" style="background-color: #d0b39857;">
+                    <img src="{% static '/images/icons/order.png' %}" width="32" height="32" alt="">
+                </div>
+                <div class="stat-title">Order pending</div>
+                <div id="pending-orders-today" class="stat-value">{{ pending_orders_count }}</div>
+                <div class="stat-desc">today ({% now "jS F Y" %})</div>
+            </div>
+        </div>
+        <div class="stats shadow">
+            <div class="stat">
+                <div class="stat-figure rounded-full p-2.5" style="background-color: #3f83f85d;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#3f83f8" class="bi bi-cart-fill" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg>
+                </div>
+                <div class="stat-title">Today's sales revenue</div>
+                <div id="sales-today" class="stat-value">{{ sales_today }}</div>
+                <div id="sales-total" class="stat-desc">total sales: {{ sales_total }}</div>
+            </div>
+        </div>
+        <div class="stats shadow">
+            <div class="stat">
+                <div class="stat-figure rounded-full p-2" style="background-color: #ff00004e;">
+                    <img src="{% static '/images/icons/meat.png' %}" width="28" height="28" alt="">
+                </div>
+                <div class="stat-title">Available meat quantity</div>
+                <div id="avaialble-meat" class="stat-value">{{ total_meat }}</div>
+            </div>
+        </div>
+        <div class="stats shadow">
+            <div class="stat">
+                <div class="stat-figure rounded-full p-2.5" style="background-color: #d0b39857;">
+                    <img src="{% static '/images/icons/orders.png' %}" width="26" height="26" alt="">
+                </div>
+                <div class="stat-title">Total orders</div>
+                <div id="completed-orders" class="stat-value">{{ completed_orders_count }}</div>
+                <div class="stat-desc">served till now</div>
+            </div>
+        </div>
+    </div>
+    <div id="low-ingredients-alert" class="alert alert-warning shadow-lg mt-10 
+        {% if not low_ingredients.count %}
+            hidden 
+        {% endif %}
+        ">
+        <div>
+            <i class="bi bi-exclamation-triangle-fill text-2xl"></i>
+            <div id="low-ingredients-msg" class="text-base font-bold">
+                {% for ingredient in low_ingredients %}
+                    {{ ingredient.name }}{% if forloop.counter != low_ingredients.count %}, {% endif %}
+                {% endfor %}
+                {% if low_ingredients > 1 %}
+                    are
+                {% else %}
+                    is
+                {% endif %}
+                running low.
+            </div>
+        </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-5 sm:gap-10 mt-10">
+        <div class="stats shadow p-4">
+            <canvas id="inventoryChart" class="max-h-80"></canvas>
+        </div>
+        <div class="stats shadow p-4 flex flex-col gap-5">
+            <select id="sales-select" class="select select-bordered w-full" onChange="changeTimeFilter(event)">
+                <option value="week" selected>Sales by this week</option>
+                <option value="month">Sales by this month</option>
+                <option value="year">Sales by this year</option>
+            </select>
+            <canvas id="salesChart" class="max-h-80"></canvas>
+        </div>
+    </div>
+    <div class="overflow-x-auto mt-10">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-1">
+            <h2 class="text-2xl font-bold ml-1 mb-2">Pending orders</h2>
+            <div class="flex gap-2">
+                <div class="form-control w-full max-w-xs">
+                    <select id="action-for-orders" class="select select-bordered select-sm">
+                        <option value="Completed" selected>Mark as complete</option>
+                        <option value="Cancelled">Mark as cancelled</option>
+                    </select>
+                </div>
+                <button class="btn btn-sm" onclick="performAction('{{ csrf_token }}')">Go</button>
+            </div>
+        </div>
+        <table id="pending-orders-table" class="table w-full mt-3">
+            <!-- head -->
+            <thead>
+                <tr>
+                    <th>
+                        <input id="main-orders-checkbox" type="checkbox" class="checkbox checkbox-xs"/>
+                    </th>
+                    <th>Order no.</th>
+                    <th>Table no.</th>
+                    <th>Date</th>
+                    <th>Food items</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in pending_orders %}
+                    <tr>
+                        <th>
+                            <input name="orders-checkbox" type="checkbox" class="checkbox checkbox-xs" value="{{ order.id }}" />
+                        </th>
+                        <td>{{ order.order_no }}</td>
+                        <td>{{ order.table_no }}</td>
+                        <td>{{ order.date }}</td>
+                        <td>
+                            {% for item in order.food_items %}
+                                {{ item.food_item.name }} ({{ item.quantity }}) <br/>
+                            {% endfor %}
+                        </td>
+                        <td>{{ order.total_price }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js" integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+{{ inventory_chart|json_script:"inventoryChartData" }}
+{{ sales_chart|json_script:"salesChartData" }}
+<script src="{% static '/js/inventory-chart.js' %}"></script>
+<script src="{% static '/js/sales-chart.js' %}"></script>
+<script src="{% static '/js/dashboard-operations.js' %}"></script>
+<script src="{% static '/js/pending-orders-table.js' %}"></script>
+<script>
+    let url = `ws://${window.location.host}/ws/dashboard/`;
+    const socket = new WebSocket(url);
+    socket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const payload = data.payload;
+        if(payload && payload.type === "check_ingredients") {
+            // showing alert if ingredients are low
+            if(payload.low_ingredients.length > 0){
+                $("#low-ingredients-alert").show();
+                $("#low-ingredients-msg").text(`${payload.low_ingredients.join(", ")} ${payload.low_ingredients.length > 1 ? "are" : "is"} about to run out!`);
+            }else{
+                $("#low-ingredients-alert").hide();
+            }
+            // updating total meat quantity
+            $("#avaialble-meat").text(payload.total_meat);
+            // updating inventory chart
+            inventoryChart.destroy();
+            inventoryChartLabel = payload.inventory_chart.map(item => item.name);
+            inventoryChartData = payload.inventory_chart.map(item => item.quantity);
+            initializeInventoryChart();
+        }else if(payload && payload.type === "check_orders"){
+            // updating orders & sales data
+            $("#pending-orders-today").text(payload.pending_orders_today);
+            $("#sales-today").text(payload.sales_today);
+            $("#sales-total").text(payload.sales_total);
+            $("#completed-orders").text(payload.completed_orders);
+            // updating sales chart
+            data_by_week = payload.sales_chart.data_by_week;
+            data_by_month = payload.sales_chart.data_by_month;
+            data_by_year = payload.sales_chart.data_by_year;
+            switch($("#sales-select").val()){
+                case "week":
+                    salesChartData = createChartData(data_by_week);
+                    break;
+                case "month":
+                    salesChartData = createChartData(data_by_month);
+                    break;
+                case "year":
+                    salesChartData = createChartData(data_by_year);
+                    break;
+            }
+            salesChart.destroy();
+            initializeSalesChart();
+            // updating pending orders table
+            updatePendingOrdersTable(payload.pending_orders);
+        }
+    }
+</script>
+{% endblock content %}
+    

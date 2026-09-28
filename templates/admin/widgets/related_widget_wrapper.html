@@ -1,0 +1,31 @@
+{% load i18n static %}
+<div class="related-widget-wrapper float-none flex items-center gap-3 w-full">
+    {{ rendered_widget }}
+    {% block links %}
+        {% spaceless %}
+        {% if not is_hidden %}
+        {% if can_change_related %}
+        <a class="related-widget-wrapper-link change-related" id="change_id_{{ name }}"
+            data-href-template="{{ change_related_template_url }}?{{ url_params }}"
+            title="{% blocktranslate %}Change selected {{ model }}{% endblocktranslate %}">
+            <i class="bi bi-pencil-square" style="font-size: 20px"></i>
+        </a>
+        {% endif %}
+        {% if can_add_related %}
+        <a class="related-widget-wrapper-link add-related" id="add_id_{{ name }}"
+            href="{{ add_related_url }}?{{ url_params }}"
+            title="{% blocktranslate %}Add another {{ model }}{% endblocktranslate %}">
+            <i class="bi bi-plus-square text-lg"></i>
+        </a>
+        {% endif %}
+        {% if can_delete_related %}
+        <a class="related-widget-wrapper-link delete-related" id="delete_id_{{ name }}"
+            data-href-template="{{ delete_related_template_url }}?{{ url_params }}"
+            title="{% blocktranslate %}Delete selected {{ model }}{% endblocktranslate %}">
+            <i class="bi bi-x-square text-lg"></i>
+        </a>
+        {% endif %}
+        {% endif %}
+        {% endspaceless %}
+    {% endblock %}
+</div>

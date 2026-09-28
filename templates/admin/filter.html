@@ -1,0 +1,9 @@
+{% load i18n %}
+<h3 class="mt-2 ml-2 text-base">{% blocktranslate with filter_title=title %} By {{ filter_title }} {% endblocktranslate %}</h3>
+<select class="select select-bordered w-full max-w-xs mt-1" onchange="location=this.value">
+{% for choice in choices %}
+    <option value="{{ choice.query_string|iriencode }}" {% if choice.selected %}selected{% endif %}>
+        {{ choice.display }}
+    </option>
+{% endfor %}
+</select>

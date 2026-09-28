@@ -1,0 +1,44 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# Environment variables & secrets
+.env
+.env.local
+.env.*.local
+
+# SQLite Database (kept local so clone installs fresh)
+db.sqlite3
+db.sqlite3-journal
+
+# Django staticfiles cache (generated via collectstatic)
+staticfiles/
+
+# Node / Tailwind build artifacts
+jstools/node_modules/
+jstools/package-lock.json
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Log files
+*.log

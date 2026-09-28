@@ -1,0 +1,13 @@
+{% extends "admin/base.html" %}
+{% load webpush_notifications %}
+
+{% block extrahead %}
+    {% webpush_header %}
+    <style>
+        #webpush-message {
+          display: none !important;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ 'Restaurant Menu Admin' }}{% endblock %}

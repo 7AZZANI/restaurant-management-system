@@ -1,0 +1,62 @@
+{% extends 'index.html' %} {% load static %} {% block content %}
+<section class="wrapper py-4">
+  <div class="flex flex-col items-center mt-3">
+    <h1 class="font-display text-3xl text-gray-500">Check your order</h1>
+    <span class="text-sm leading-3 mb-4">(only today's order will appear in search)</span>
+    <div class="flex gap-3 mt-1">
+      <input
+        id="order-no"
+        type="number"
+        min="1"
+        placeholder="Order no."
+        class="input input-bordered w-full max-w-xs"
+        value="{{ order.order_no }}"
+      />
+      <input
+        id="table-no"
+        type="number"
+        min="1"
+        max="10"
+        placeholder="Table no."
+        class="input input-bordered w-full max-w-xs"
+        value="{{ order.table_no }}"
+      />
+      <div>
+        <button class="btn btn-primary" onclick="searchOrder()">Check</button>
+      </div>
+    </div>
+  </div>
+  <div class="hr-curve mt-5"></div>
+  <div>
+    <div class="grid sm:grid-cols-2 gap-5">
+      {% for item in order.food_items %}
+      <div class="flex flex-col md:flex-row gap-5 border-[3px] border-red-900 shadow p-5 rounded-xl">
+        <div class="w-full h-44 md:w-32 md:h-24 shrink-0">
+          <img
+            src="{{ item.food_item.image.url }}"
+            alt=""
+            class="object-cover rounded w-full h-full"
+            width="100%"
+            height="100%"
+          />
+        </div>
+        <div>
+          <div class="text-xl font-bold">
+            {{ item.food_item.name }} ({{ item.quantity }})
+          </div>
+          <div>{{ item.total_price }} /-</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if not order %}
+    <div class="h-80 grid place-items-center border-2 border-dashed">
+      <div class="text-center">
+        <span class="text-gray-400">No order found or haven't been search yet</span>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

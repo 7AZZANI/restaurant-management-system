@@ -1,0 +1,16 @@
+<input type="checkbox" id="order-modal" class="modal-toggle" />
+<div class="modal modal-bottom sm:modal-middle">
+  <form onsubmit="confirmOrder(event, '{{ csrf_token }}')" class="modal-box">
+    <h3 class="font-bold text-lg mb-4">Your order no. will be #<span id="order-no-modal"></span></h3>
+    <div id="orders-list"></div>
+    <div class="modal-action">
+      <button type="submit" id="confirm-order-btn" class="btn btn-primary">
+        Confirm order
+      </button>
+      <button type="button" id="remove-all-btn" class="btn btn-accent" onclick="removeAllItems()">
+        Remove all
+      </button>
+      <label for="order-modal" class="btn">Close</label>
+    </div>
+  </form>
+</div>

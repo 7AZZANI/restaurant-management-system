@@ -1,0 +1,9 @@
+{% if use_tag %}
+    <label class="label" {% include 'django/forms/attrs.html' %}>
+        <span class="text-sm">{{ label }}</span>
+    </label>
+{% else %}
+    <label class="label">
+        <span class="text-sm">{{ label }}</span>
+    </label>
+{% endif %}

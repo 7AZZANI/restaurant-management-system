@@ -1,0 +1,49 @@
+{% for category in categories %}
+<h2 class="font-display text-2xl mt-5 mb-2 px-2">{{ category.name }}</h2>
+    {% for item in category.fooditem_set.all|dictsort:"name" %}
+    <div class="collapse">
+        <input type="checkbox" class="peer" style="min-height: 0" />
+        <div
+            id="{{ item.slug }}"
+            class="collapse-title px-2 py-0 border-b-2 peer-checked:border-b-0 peer-checked:after:content-['▲'] after:content-['▼'] after:absolute after:top-0 after:right-1"
+            style="min-height: 0"
+        >
+            <div class="flex justify-between">
+            <span>{{ item.name }}</span>
+            <span class="pr-8">{{ item.price }}</span>
+            </div>
+        </div>
+        <div
+            class="collapse-content pt-2 px-0 flex flex-col sm:flex-row gap-5 peer-checked:border-b-2 border-b-0"
+        >
+            <div class="w-full sm:w-56 h-44 shrink-0">
+                <img
+                    src="{{ item.image.url }}"
+                    alt=""
+                    class="object-cover rounded w-full h-full"
+                    width="100%"
+                    height="100%"
+                />
+                </div>
+            <div class="w-full">
+            <div>
+                <div class="ml-1 text-sm">
+                    {% if item.quantity_available != 0 %}
+                    Only <strong>{{ item.quantity_available }}</strong> {{ item.name }} left.
+                    {% else %}
+                    Out of stock.
+                    {% endif %}
+                </div>
+                <div class="ml-1 text-sm">
+                Price as per the quantity is
+                <span id="{{ item.slug }}-price" class="text-base font-bold"
+                    >{{ item.price }}</span
+                >. Will be added to your total order.
+                </div>
+            </div>
+            {% include 'components/order-operation.html' with item=item %}
+            </div>
+        </div>
+    </div>
+    {% endfor %} 
+{% endfor %}

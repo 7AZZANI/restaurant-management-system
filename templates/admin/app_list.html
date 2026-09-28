@@ -1,0 +1,26 @@
+{% load i18n %}
+
+{% if app_list %}
+<ul class="menu overflow-y-auto bg-base-100 my-0 h-full  lg:h-fit"  style="width: 255px;">
+    <li>
+        <a href="{% url 'admin:index' %}" class="normal-case font-display text-2xl p-4 hidden lg:block hover:bg-base-100 font-bold">Restaurant Menu</a>
+    </li>
+    <li class="{% if '/admin/' == request.path|urlencode %}bordered{% endif %}">
+        <a class="py-2" href="{% url 'admin:index' %}"><span class="text-lg">&#10170;</span>Home</a>
+    </li>
+    {% for app in app_list %}
+        <li class="menu-title uppercase mt-5" >
+            <span style="color: #9c865f">{{ app.name }}</span>
+        </li>
+        {% for model in app.models %}
+            {% if model.admin_url %}
+                <li class="{% if model.admin_url in request.path|urlencode %}bordered{% endif %}"><a class="py-2" href="{{ model.admin_url }}"><span class="text-lg">&#10170;</span> {{ model.name }}</a></li>
+            {% else %}
+                <li>{{ model.name }}</li>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+</ul>
+{% else %}
+    <p class="grid place-items-center p-5">{% translate 'You don’t have permission to view or edit anything.' %}</p>
+{% endif %}
